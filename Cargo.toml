@@ -1,0 +1,15 @@
+[package]
+name = "B-Mine-SDK"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["rlib"]
+[dependencies]
+libloading = "0.8.5"
+log = "0.4.22"
+tracing = "0.1.40"
+
+# 协议库
+byteorder = "1.5.0"
+rust-raknet = "0.12.0"
