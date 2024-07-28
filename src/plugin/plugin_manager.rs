@@ -1,7 +1,7 @@
 use std::{collections::HashMap, ffi::OsStr, fs, sync::Arc};
 
 use libloading::{Library, Symbol};
-use tracing::{debug, error, field::debug, info};
+use tracing::{debug, error, info};
 
 use super::plugin::PluginTrait;
 
@@ -77,11 +77,9 @@ impl PluginManager {
         // plugin.receive_packet(buf).clone()
         // 以下代码实现了接收并转发数据
         for plugin_name in self.extends.keys() {
-            debug!("Receive from {}: {:?}", plugin_name, buf);
             let plugin = self.select(plugin_name).unwrap();
             let processed_buf = plugin.receive_packet(buf);
             if let Some(processed_buf) = processed_buf {
-                debug!("Processed by {}:{:?}", plugin_name, processed_buf.0.clone());
                 match socket.send(&processed_buf.0, processed_buf.1).await {
                     Ok(_) => {
                         debug!("Send to {}: {:?}", plugin_name, processed_buf.0);
